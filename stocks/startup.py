@@ -1,6 +1,6 @@
 import django
 django.setup()
-from stocksbackend.models import User
+from stocksbackend.models.profile import User
 
 
 def seed():
@@ -17,3 +17,8 @@ def seed():
     user.profile.buy('GOOGL', 10)
     user.profile.buy('TSLA', 2)
     user.profile.buy('FB', 3)
+    user.profile.sell('GOOGL', 5)
+    user.profile.sell('TSLA', 2)
+
+
+
