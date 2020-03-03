@@ -20,6 +20,3 @@ def seed():
     user.profile.buy('FB', 3)
     user.profile.sell('GOOGL', 5)
     user.profile.sell('TSLA', 2)
-
-
-
