@@ -1,9 +1,10 @@
 import django
-django.setup()
-from stocksbackend.models.profile import User
 
 
 def seed():
+    django.setup()
+    from stocksbackend.models.profile import User
+
     User.objects.all().delete()
 
     user = User(
