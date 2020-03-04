@@ -5,11 +5,7 @@ import BrokerForm from './BrokerForm';
 
 const Portfolio = (props) => {
   const [ stocks, setStocks ] = useState([]);
-  const [ profile, setProfile ] = useState({ 
-    email: '',
-    name: '',
-    funds: 0
-  });
+  const [ funds, setFunds ] = useState(0);
 
   useEffect(() => {fetchPortfolio()}, []);
 
@@ -24,16 +20,13 @@ const Portfolio = (props) => {
     if (response.status === 401)
       props.history.push('/signin');
 
-    console.log(await response.json());
-
-
-    // const portfolio = await response.json();
-    // setStocks(portfolio.stocks);
-    // setProfile(portfolio.profile)
+    const portfolio = await response.json();
+    setStocks(portfolio.stocks);
+    setFunds(portfolio.funds);
   };
 
   return <>
-    <BrokerForm funds={profile.funds} fetchPortfolio={fetchPortfolio} />
+    <BrokerForm funds={funds} fetchPortfolio={fetchPortfolio} />
     <StockList stocks={stocks}/>
   </>;
 };

@@ -63,6 +63,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    'COERCE_DECIMAL_TO_STRING': False
 }
 
 CORS_ORIGIN_WHITELIST = (

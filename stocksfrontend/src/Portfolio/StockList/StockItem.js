@@ -1,7 +1,7 @@
 import React from 'react';
 
 const StockItem = (props) => {
-  const { ticker, company, amount, openPrice, latestPrice }  = props.stock;
+  const { ticker, company, amount, info }  = props.stock;
   return <>
     <tr>
       <td>
@@ -13,13 +13,13 @@ const StockItem = (props) => {
           </h4>
       </td>
       <td>
-        <PriceTrend base={openPrice} current={latestPrice} />
+        <PriceTrend base={info.quote.previousClose} current={info.quote.latestPrice} />
       </td>
       <td>
         <h4 className="ui header">{amount}</h4>
       </td>
       <td>
-        <h4 className="ui header">${(latestPrice * amount).toFixed(2)}</h4>
+        <h4 className="ui header">${(info.quote.latestPrice * amount).toFixed(2)}</h4>
       </td>
     </tr>
   </>;

@@ -5,11 +5,13 @@ import StockItem from './StockItem';
 const StockList = (props) => {
   const { stocks } = props;
 
-  const totalValue = (stock) => stock.amount * stock.latestPrice;
+  const totalValue = (stock) => stock.amount * stock.info.quote.latestPrice;
+
   const stockItems = stocks
     .sort((stockA, stockB) => totalValue(stockB) - totalValue(stockA))
-    .map((stock) => <StockItem key={stock._id} stock={stock} />);
-  const totalAssetsValue = stocks.reduce((sum, stock) => sum + totalValue(stock), 0);
+    .map((stock) => <StockItem key={stock.ticker} stock={stock} />);
+
+  const totalAssetsValue = stocks.reduce((total, stock) => total + totalValue(stock), 0);
 
   return <>
     <div className="ui container segment">
