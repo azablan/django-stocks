@@ -2,9 +2,13 @@ import React from 'react';
 
 const TransactionItem = (props) => {
   const { ticker, company, price, amount, type, timestamp } = props.transaction;
-  const sign = type === 'buy' ? '-' : '+';
-  const net = `${sign} $${(price * amount).toFixed(2)}`;
+  const sign = type === 'BUY' ? '-' : '+';
+  const netFundsColor = {
+    color: type === 'BUY' ? 'red' : 'green'
+  };
+  const netFunds = `${sign} $${(price * amount).toFixed(2)}`;
   const date = new Date(timestamp);
+
   return <>
     <tr>
       <td>
@@ -18,7 +22,7 @@ const TransactionItem = (props) => {
       <td>{type}</td>
       <td>{`$${price}`}</td>
       <td>{amount}</td>
-      <td>{net}</td>
+      <td style={netFundsColor}>{netFunds}</td>
       <td>
         <div className="content">
         <div>

@@ -3,26 +3,27 @@ import React, { useState, useEffect } from 'react';
 import TransactionItem from './TransactionItem';
 
 const TransactionsList = (props) => {
-  const [transactions, setTransactions] = useState([]);
+  const [ transactions, setTransactions ] = useState([]);
   useEffect(() => { fetchTransactions() }, []);
 
   async function fetchTransactions() {
-    const response = await fetch(`/api/dashboard/transactions`, {
-      method: 'GET',
-      credentials: 'include',
+    const response = await fetch(`http://localhost:8000/api/transactions`, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('token')}`
       }
     });
 
     if (response.status === 401)
       props.history.push('/signin');
 
-    const data = await response.json();
-    setTransactions(data.transactions);
+    const transactions = await response.json();
+    setTransactions(transactions);
   };
 
-  const transactionItems = transactions.map(tx => <TransactionItem key={tx._id} transaction={tx} />);
+  const transactionItems = transactions
+    .sort((tx1, tx2) => new Date(tx2.timestamp) - new Date(tx1.timestamp))
+    .map((tx, i) => <TransactionItem key={i} transaction={tx} />);
 
   return <>
     <div className="ui container segment">
