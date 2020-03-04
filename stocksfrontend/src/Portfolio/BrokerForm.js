@@ -11,11 +11,16 @@ const BrokerForm = (props) => {
   const [ stockPreview, setStockPreview ] = useState(null);
 
   const handleGetPrice = async (event) => {
-    const response = await fetch(`/api/dashboard/stock/${ticker}`);
-    const { stock } = await response.json();
+    const response = await fetch(`http://localhost:8000/api/stock_info/${ticker}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('token')}`
+      },
+    });
+
     if (response.status === 200) {
-      setStockPreview(stock);
-      console.log(stock);
+      const stockInfo = await response.json();
+      setStockPreview(stockInfo);
     } else {
       setOrderStatus({ success: false, message: `${ticker} not found` })
     }
@@ -25,14 +30,16 @@ const BrokerForm = (props) => {
     event.preventDefault();
     handleGetPrice();
     const order = { ticker, type, amount };
-    const response = await fetch(`/api/dashboard/stocks`, {
+
+    const response = await fetch(`http://localhost:8000/api/transactions/`, {
       method: 'POST',
-      credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(order)
     });
+
     const status = await response.json();
     setOrderStatus(status);
     fetchPortfolio();

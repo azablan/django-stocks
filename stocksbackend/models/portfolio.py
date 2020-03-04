@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from decimal import Decimal
 
 from .util import get_one_info_by_ticker
 
@@ -30,7 +31,7 @@ class Portfolio(models.Model):
         self.save()
 
     def __make_buy_transaction(self, ticker, company, price, amount):
-        cost = price * amount
+        cost = Decimal(price * amount)
         if self.funds < cost:
             raise Exception('not enough funds to make buy transaction')
         self.funds -= cost
@@ -51,7 +52,7 @@ class Portfolio(models.Model):
         self.save()
 
     def __make_sell_transaction(self, ticker, company, price, amount):
-        cost = price * amount
+        cost = Decimal(price * amount)
         self.funds += cost
         self.transactions.create(type='SELL', ticker=ticker, company=company, price=price, amount=amount)
 
