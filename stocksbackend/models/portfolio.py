@@ -10,10 +10,6 @@ class Portfolio(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     funds = models.DecimalField(max_digits=9, decimal_places=2, default=32000)
 
-    @property
-    def stocks(self):
-        return self.stocks.all()
-
     def buy(self, ticker, amount):
         ticker = ticker.upper()
         stock_quote = get_one_info_by_ticker(ticker)['quote']
