@@ -14,20 +14,22 @@ const Portfolio = (props) => {
   useEffect(() => {fetchPortfolio()}, []);
 
   async function fetchPortfolio() {
-    const response = await fetch(`/api/dashboard/portfolio`, {
-      method: 'GET',
-      credentials: 'include',
+    const response = await fetch('http://localhost:8000/api/portfolio', {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('token')}`
       }
     });
 
     if (response.status === 401)
       props.history.push('/signin');
 
-    const portfolio = await response.json();
-    setStocks(portfolio.stocks);
-    setProfile(portfolio.profile)
+    console.log(await response.json());
+
+
+    // const portfolio = await response.json();
+    // setStocks(portfolio.stocks);
+    // setProfile(portfolio.profile)
   };
 
   return <>

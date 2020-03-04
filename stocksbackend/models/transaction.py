@@ -1,5 +1,5 @@
 from django.db import models
-from .profile import Profile
+from .portfolio import Portfolio
 
 
 class Transaction(models.Model):
@@ -10,7 +10,7 @@ class Transaction(models.Model):
         (SELL, 'sell'),
     ]
 
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE, default=None)
+    portfolio = models.ForeignKey(Portfolio, related_name='transactions', on_delete=models.CASCADE, default=None)
     ticker = models.CharField(max_length=5)
     company = models.CharField(max_length=30)
     type = models.CharField(max_length=4, choices=TRANSACTION_CHOICES) 

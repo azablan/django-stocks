@@ -1,35 +1,34 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Cookie from 'js-cookie';
 
 const SignIn = (props) => {
-  const [ email, setEmail ] = useState('');
+  const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
-
-  if (Cookie.get('token'))
-    redirectToPortfolio();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const user = { email, password };
-    const response = await fetch('/api/user/signin', {
+    const user = { username, password };
+    const response = await fetch('http://localhost:8000/token-auth/', {
       method: 'POST',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user })
+      body: JSON.stringify(user)
     });
-    
-    if (response.status === 200)
+
+    if (response.status === 200) {
+      const { token } = await response.json();
+      localStorage.setItem('token', token);
       redirectToPortfolio();
+    }
   };
-  const handeEmailChange = (event) => setEmail(event.target.value);
+
+  const handeEmailChange = (event) => setUsername(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
   
   const setDemoUser = () => {
-    setEmail('azab@gmail.com');
-    setPassword('catdog');
+    setUsername('azab');
+    setPassword('promenade');
   };
   
   function redirectToPortfolio() {
@@ -45,8 +44,8 @@ const SignIn = (props) => {
         <div className="content">
           <form className="ui form" onSubmit={handleSubmit}>
             <div className="field">
-              <label>Email</label>
-              <input type="text" value={email} onChange={handeEmailChange} placeholder="email"/>
+              <label>Username</label>
+              <input type="text" value={username} onChange={handeEmailChange} placeholder="username"/>
             </div>
             <div className="field">
               <label>Password</label>

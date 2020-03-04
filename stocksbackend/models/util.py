@@ -11,7 +11,7 @@ def get_many_info_by_ticker(tickers):
     if response.status_code == 200:
         return response.json()
     elif response.status_code == 404:
-        raise Exception('ticker not found')
+        raise Exception(f'ticker {symbols} not found')
     else:
         raise Exception('unknown error fetching ticker from IEX api')
 
