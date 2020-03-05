@@ -14,7 +14,7 @@ const Dashboard = (props) => {
   const transactionsClass = `item ${transactionsPath === currentPath ? 'active': ''}`;
 
   const signout = () => {
-    Cookies.remove('token', { path: '/' });
+    localStorage.removeItem('token');
     props.history.push('/signin');
   };
 

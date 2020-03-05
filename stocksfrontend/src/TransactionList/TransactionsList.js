@@ -4,6 +4,8 @@ import TransactionItem from './TransactionItem';
 
 const TransactionsList = (props) => {
   const [ transactions, setTransactions ] = useState([]);
+
+  // eslint-disable-next-line
   useEffect(() => { fetchTransactions() }, []);
 
   async function fetchTransactions() {

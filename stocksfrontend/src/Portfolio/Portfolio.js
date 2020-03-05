@@ -6,15 +6,21 @@ import BrokerForm from './BrokerForm';
 const Portfolio = (props) => {
   const [ stocks, setStocks ] = useState([]);
   const [ funds, setFunds ] = useState(0);
+  
+  // eslint-disable-next-line
+  useEffect(() => {
+    const abortController = new AbortController();
+    fetchPortfolio(abortController.signal);
+    return () => abortController.abort();
+  }, []);
 
-  useEffect(() => {fetchPortfolio()}, []);
-
-  async function fetchPortfolio() {
+  async function fetchPortfolio(signal = null) {
     const response = await fetch('http://localhost:8000/api/portfolio', {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `JWT ${localStorage.getItem('token')}`
-      }
+      },
+      signal
     });
 
     if (response.status === 401)
@@ -27,7 +33,7 @@ const Portfolio = (props) => {
 
   return <>
     <BrokerForm funds={funds} fetchPortfolio={fetchPortfolio} />
-    <StockList stocks={stocks}/>
+    <StockList stocks={stocks} />
   </>;
 };
 

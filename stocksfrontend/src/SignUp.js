@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Cookie from 'js-cookie';
 
 const SignUp = (props) => {
+  const [ username, setUsername ] = useState('');
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
-  const [ name, setName ] = useState('');
-
-  if (Cookie.get('token'))
-    redirectToPortfolio();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const user = { email, name, password };
-    const response = await fetch('/api/user/signup', {
+    const user = { email, username, password };
+    const response = await fetch('http://localhost:8000/api/users/', {
       method: 'POST',
-      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user })
+      body: JSON.stringify(user)
     });
-    if (response.status === 200)
+
+    if (response.status === 201) {
+      const { token } = await response.json();
+      localStorage.setItem('token', token);
       redirectToPortfolio();
+    }
   };
+
   const handeEmailChange = (event) => setEmail(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
-  const handleNameChange = (event) => setName(event.target.value);
+  const handleUsernameChange = (event) => setUsername(event.target.value);
   
   function redirectToPortfolio() {
     props.history.push('/dashboard/portfolio');
@@ -41,8 +41,8 @@ const SignUp = (props) => {
         <div className="content">
           <form className="ui form" onSubmit={handleSubmit}>
             <div className="field">
-              <label>Name</label>
-              <input type="text" value={name} placeholder="name" minLength="1" onChange={handleNameChange}/>
+              <label>Username</label>
+              <input type="text" value={username} placeholder="username" minLength="1" onChange={handleUsernameChange}/>
             </div>
             <div className="field">
               <label>Email</label>

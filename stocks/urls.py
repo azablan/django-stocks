@@ -4,5 +4,5 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     path('api/', include('stocksbackend.urls')),
-    path('token-auth/', obtain_jwt_token),
+    path('signin/', obtain_jwt_token),
 ]
