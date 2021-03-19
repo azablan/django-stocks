@@ -6,7 +6,7 @@ chardet==3.0.4
 distlib==0.3.0
 Django==3.0.3
 django-cors-headers==3.2.1
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 filelock==3.0.12
 idna==2.9
